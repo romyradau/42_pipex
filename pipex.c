@@ -6,12 +6,13 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:25:35 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/21 18:29:10 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/21 20:16:52 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <fcntl.h>
+#include <stdio.h>
 
 
 void	exec_failed(char *s)
@@ -34,23 +35,22 @@ int main (int argc, char **argv, char **envp)
 	in = open(argv[1], O_RDONLY);
 	if (in == -1)
 		exec_failed("ERROR: inputfile failure");
-	out = open(argv[4], O_RDWR | O_CREAT);
+	out = open(argv[4], O_RDWR | O_CREAT , 0644);
+	//0644 to be able to open what was just created
 	if (out == -1)
 	{
 		close(in);
 		exec_failed("ERROR: outputfile failure");
 	}
-
 	
-	execve("/bin/cat", NULL, envp);
-	//when to close in and out correctly??
+	char **args = ft_split(argv[2], ' '); // split the command
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
+	execve("/bin/cat", args, envp); //read from 0 -> write to 1
 	
-	// handle_input();
-	// int fd;
-
-	// open("file", );
 }
-
-
-// "< Makefile cat | grep something > out"
-// "./pipex file cmd cmd file"
+/*	open filedescriptors for in and out
+	split the command string
+	redirect stdin and stdout execve
+	execve takes the command path, the command, and envp =?
+*/

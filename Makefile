@@ -10,7 +10,7 @@ $(NAME): $(LIBFT)
 	gcc $(FLAGS) $(SRC) $(LIBFT) -o $@
 
 $(LIBFT) :
-	make --directory=./Libft
+	@make -sC libft > /dev/null
 
 clean:
 	make -C libft clean
