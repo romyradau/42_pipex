@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:25:35 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/23 00:31:08 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:06:22 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ int main (int argc, char **argv, char **envp)
 	}
 	
 	int fildes[2];
+	//the two files needed to use pipe
 	
 	if (pipe(fildes) == -1)
+	//here the pipe with its two ffiles gets created
 		exec_failed("ERROR: unsuccessful creation of pipe");
 	
 	pid_t	pid = fork();
