@@ -6,8 +6,8 @@ OBJ = 	$(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT)
-	gcc $(FLAGS) $(SRC) $(LIBFT) -o $@
+$(NAME): $(LIBFT) $(OBJ)
+	gcc $(FLAGS) $(OBJ) $(LIBFT) -o $@
 
 $(LIBFT) :
 	@make -sC libft > /dev/null
@@ -20,5 +20,7 @@ fclean:
 	make -C libft fclean
 	make clean
 	rm -fr $(NAME)
+	rm -fr outfile
+	rm -fr infile
 
 re: fclean all
