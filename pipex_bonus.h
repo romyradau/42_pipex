@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 18:18:55 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/28 18:51:41 by rschleic         ###   ########.fr       */
+/*   Created: 2022/01/28 19:28:00 by rschleic          #+#    #+#             */
+/*   Updated: 2022/01/28 19:39:15 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "./libft/libft.h"
 # include <fcntl.h>
@@ -25,8 +26,11 @@
 #  define WRITE_END 1
 # endif
 
-void	child_status(void);
-void	exec_failed(char *s);
-void	cmd_exec(char *cmd, char **envp);
+typedef struct s_data{
+	
+	pid_t	pid;
+	int		fd;
+	int		amount_cmd;
+}	t_data;
 
 #endif

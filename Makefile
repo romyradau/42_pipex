@@ -1,6 +1,6 @@
 FAGS = 	-Wall -Wextra -Werror
 NAME = 	pipex
-SRC = 	pipex.c
+SRC = 	pipex.c exec.c
 LIBFT = libft/libft.a
 OBJ = 	$(SRC:.c=.o)
 

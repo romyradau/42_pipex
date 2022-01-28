@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 17:25:35 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/28 19:22:57 by rschleic         ###   ########.fr       */
+/*   Created: 2022/01/28 19:26:46 by rschleic          #+#    #+#             */
+/*   Updated: 2022/01/28 19:39:51 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	redirecting_child(int in, int *fd, char *cmd, char **envp)
 {
@@ -34,8 +34,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	int		in;
 	int		out;
-	int		fd[2];
-	pid_t	pid;
+	t_data	data;
 
 	if (argc != 5)
 		exec_failed("ERROR: incorrect parameter number");
@@ -50,15 +49,11 @@ int	main(int argc, char **argv, char **envp)
 		//explain
 		exec_failed("ERROR: open outfile failed");
 	}
-	if (pipe(fd) == -1)
-		exec_failed("ERROR: unsuccessful creation of pipe");
-	pid = fork();
-	if (pid == -1)
-		exec_failed("ERROR: unsuccessful fork execution");
-	if (pid == 0)
-		redirecting_child(in, fd, argv[2], envp);
-	child_status();
-	redirecting_parent(out, fd, argv[3], envp);
+	while (data.amount_cmd < argc - 2)
+	{
+		//cmd_exec_whileloop
+	}
+	redirecting_parent(out, data.fd, argv[3], envp);
 }
 /*
 	if (pipe(fd) == -1)
@@ -69,19 +64,4 @@ int	main(int argc, char **argv, char **envp)
 	if (pid == 0)
 		redirecting_child(in, fd, argv[2], envp);
 	child_status();
-	
-	this needs to be replaced by a while loop
-	
-/*
-	instead of else for the parent
-	we can just waitpid(pid, NULL, 0);
-	...
 */
-	/*
-		envp exists by default, just declare so it's there
-		They will be readable by all the user groups
-		but writable by the user only.
-		These permissions are set automatically when the file is created.
-		| here means bitwise "or", so that both macros will be found there
-		0644 to be able to open what was just created
-	*/
