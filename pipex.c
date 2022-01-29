@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:25:35 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/28 19:22:57 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:01:27 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 void	redirecting_child(int in, int *fd, char *cmd, char **envp)
 {
+	close(out);
+	//offene fds amchend ie liste ewig lang
+	//bei pipes mussen alle zeiger auf files zerstort werden
 	dup2(in, STDIN_FILENO);
+	close(in);
+	//sobald man eine verbindung nicht mehr braucht kann man die loschen
+	//aufs infile kann man jetzt über 4 und 0 zugreifen
 	close(fd[READ_END]);
 	dup2(fd[WRITE_END], STDOUT_FILENO);
 	close(fd[WRITE_END]);
@@ -22,11 +28,16 @@ void	redirecting_child(int in, int *fd, char *cmd, char **envp)
 }
 
 void	redirecting_parent(int out, int *fd, char *cmd, char **envp)
+//ier ist wieder ales unberúrt
 {
+	close(in);
 	close(fd[WRITE_END]);
 	dup2(fd[READ_END], STDIN_FILENO);
+	//kann man kaputt machen weil die verbindung uber die null steht.
 	close(fd[READ_END]);
 	dup2(out, STDOUT_FILENO);
+	//wo des erste hinzeigt, zeigt dann auch das zweite hin
+	close(out);
 	cmd_exec(cmd, envp);
 }
 
