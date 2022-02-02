@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 17:22:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/28 17:51:22 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/02 22:23:53 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void	cmd_exec(char *cmd, char **envp)
 		i++;
 	if (!envp[i])
 		exec_failed("PATH not set\n");
+		//when the path is not set 
+		//i need to check anyways if its accessable
+		// am schluss checken ob der command auch ohne path ausführbar ist 
 	paths = ft_split(envp[i] + 6, ':');
 	cmd_args = ft_split(cmd, ' ');
 	find_path(paths, cmd_args, envp);

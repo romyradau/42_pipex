@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:28:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/28 19:39:15 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:58:19 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 # endif
 
 typedef struct s_data{
-	
+	int		in;
+	int		out;
+	int		fd[2];
 	pid_t	pid;
-	int		fd;
 	int		amount_cmd;
 }	t_data;
 
