@@ -1,6 +1,7 @@
 FAGS = 	-Wall -Wextra -Werror
 NAME = 	pipex
 SRC = 	pipex.c exec.c
+BONUS = pipex_bonus.c 
 LIBFT = libft/libft.a
 OBJ = 	$(SRC:.c=.o)
 
@@ -22,5 +23,8 @@ fclean:
 	rm -fr $(NAME)
 	rm -fr outfile
 	rm -fr infile
+
+bonus:
+
 
 re: fclean all

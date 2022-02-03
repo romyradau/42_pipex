@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 17:22:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/02 22:23:53 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/04 00:37:06 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	find_path(char **paths, char **cmd_args, char **envp)
 		i++;
 	}
 }
+//vervollständigen, dass der command auch ohne PATH accessible sein kann
 
 void	cmd_exec(char *cmd, char **envp)
 {
@@ -73,6 +74,8 @@ void	cmd_exec(char *cmd, char **envp)
 	free_split(cmd_args);
 	exec_failed("ERROR: no matching path found\n");
 }
+// hier nochmal verstehen, was im bonus geandert wurde
+// wie implementiere ich path not set in bonus(message)
 
 void	child_status(void)
 {
@@ -87,6 +90,9 @@ void	child_status(void)
 			exec_failed("ERROR: cp exit unsuccessful");
 	}
 }
+
+//ich mache uberhaupt nichts mit einem möglcihen return value
+
 /*
 	return value of cp gets written to &wait_status
 	if (WIFEXITED(wait_status))
