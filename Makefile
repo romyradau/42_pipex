@@ -1,17 +1,23 @@
-FAGS = 	-Wall -Wextra -Werror
-NAME = 	pipex
-SRC = 	pipex.c exec.c
-BONUS = pipex_bonus.c 
+FLAGS = -Wall -Wextra -Werror
+NAME = pipex
+BON_NAME = pipex_bonus
+SRC = pipex.c exec.c
+BONUS = pipex_bonus.c exec_bonus.c redirecting_bonus.c
+OBJ_BON = $(addprefix $(OBJ_DIR),$(BONUS:.c=.o))
 LIBFT = libft/libft.a
-OBJ = 	$(SRC:.c=.o)
+OBJ = $(addprefix $(OBJ_DIR),$(SRC:.c=.o))
+OBJ_DIR = obj/
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	gcc $(FLAGS) $(OBJ) $(LIBFT) -o $@
 
+$(OBJ_DIR)%.o : %.c
+	gcc -c $(FLAGS) $< -o $@
+
 $(LIBFT) :
-	@make -sC libft > /dev/null
+	@make -sC libft
 
 clean:
 	make -C libft clean
@@ -20,11 +26,14 @@ clean:
 fclean:
 	make -C libft fclean
 	make clean
-	rm -fr $(NAME)
+	rm -fr $(NAME) $(BON_NAME)
 	rm -fr outfile
 	rm -fr infile
+	rm -rf $(OBJ) $(OBJ_BON)
 
-bonus:
+bonus: $(BON_NAME)
 
+$(BON_NAME) : $(LIBFT) $(OBJ_BON)
+		gcc $(FLAGS) $(OBJ_BON) $(LIBFT) -o $@
 
 re: fclean all

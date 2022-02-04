@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 17:22:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/04 00:37:06 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/04 17:39:50 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	find_path(char **paths, char **cmd_args, char **envp)
 	char	*tmp_match;
 
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		tmp_match = ft_strjoin(paths[i], "/");
 		match = ft_strjoin(tmp_match, cmd_args[0]);
@@ -50,8 +50,9 @@ void	find_path(char **paths, char **cmd_args, char **envp)
 		free(match);
 		i++;
 	}
+	if (access(cmd_args[0], F_OK) == 0)
+		execve(cmd_args[0], cmd_args, envp);
 }
-//vervollständigen, dass der command auch ohne PATH accessible sein kann
 
 void	cmd_exec(char *cmd, char **envp)
 {
@@ -62,12 +63,9 @@ void	cmd_exec(char *cmd, char **envp)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
-	if (!envp[i])
-		exec_failed("PATH not set\n");
-		//when the path is not set 
-		//i need to check anyways if its accessable
-		// am schluss checken ob der command auch ohne path ausführbar ist 
-	paths = ft_split(envp[i] + 6, ':');
+	paths = NULL;
+	if (envp[i])
+		paths = ft_split(envp[i] + 6, ':');
 	cmd_args = ft_split(cmd, ' ');
 	find_path(paths, cmd_args, envp);
 	free_split(paths);

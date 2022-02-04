@@ -6,19 +6,18 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:25:35 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/04 00:27:33 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:28:25 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
 
 int	redirecting_child(t_file *file, char *cmd, char **envp)
 {
 	int	error;
 	
 	error = (
-	close(file->out)
+	close(file->out) == -1
 	|| dup2(file->in, STDIN_FILENO) == -1
 	|| close(file->in) == -1
 	|| close(file->fd[READ_END]) == -1
@@ -43,7 +42,7 @@ int	redirecting_parent(t_file *file, char *cmd, char **envp)
 	int	error;
 	
 	error = (
-	close(file->in)
+	close(file->in) == -1
 	|| close(file->fd[WRITE_END]) == -1
 	|| dup2(file->fd[READ_END], STDIN_FILENO) == -1
 	|| close(file->fd[READ_END]) == -1

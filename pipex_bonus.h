@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:28:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/03 23:59:45 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/04 17:22:48 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,13 @@ typedef struct s_data{
 	pid_t	pid;
 	int		amount_cmd;
 }	t_data;
+
+int		redirecting_parent(t_data *data, char *cmd, char **envp);
+int		redirecting_pipe(t_data *data, char *cmd, char **envp);
+int		redirecting_child(t_data *data, char *cmd, char **envp);
+void	child_status(void);
+void	cmd_exec(char *cmd, char **envp);
+void	free_split(char **split);
+void	exec_failed(char *s);
 
 #endif

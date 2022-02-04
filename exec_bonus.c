@@ -6,11 +6,12 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 20:39:42 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/02 20:54:46 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:44:58 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
+#include <stdio.h>
 
 void	exec_failed(char *s)
 {
@@ -53,7 +54,6 @@ void	find_path(char **paths, char **cmd_args, char **envp)
 	if (access(cmd_args[0], F_OK) == 0)
 		execve(cmd_args[0], cmd_args, envp);
 }
-//change for no bonus too!!!
 
 void	cmd_exec(char *cmd, char **envp)
 {
@@ -64,12 +64,10 @@ void	cmd_exec(char *cmd, char **envp)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
+		//segfaultet das hier wenn  es kein PATH gibt im letzten envp[i]?
 	paths = NULL;
 	if (envp[i])
 		paths = ft_split(envp[i] + 6, ':');
-		//when the path is not set 
-		//i need to check anyways if its accessable
-		// am schluss checken ob der command auch ohne path ausführbar ist 
 	cmd_args = ft_split(cmd, ' ');
 	find_path(paths, cmd_args, envp);
 	free_split(paths);
@@ -97,4 +95,6 @@ void	child_status(void)
 	if (WEXITSTATUS(wait_status) == 0)
 		checks with what it exited
 		0 == success
+		
+	fprintf(stderr, "%s", envp[28]);
 */
