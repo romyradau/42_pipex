@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:28:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/04 17:22:48 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/05 19:41:21 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define PIPEX_BONUS_H
 
 # include "./libft/libft.h"
+# include "get_next_line.h"
 # include <fcntl.h>
 # include <unistd.h>
 
@@ -29,6 +30,8 @@
 typedef struct s_data{
 	int		in;
 	int		out;
+	int		heredoc;
+	char	*LIMITER;
 	int		fd[2];
 	int		tmp_fd;
 	pid_t	pid;
