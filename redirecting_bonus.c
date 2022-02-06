@@ -6,15 +6,18 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 13:16:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/04 19:14:42 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:02:14 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	redirecting_child(t_data *data, char *cmd, char **envp)
+int	redirecting_first_command(t_data *data, char *cmd, char **envp)
 {
 	int	error;
+	
+	if (data->heredoc)
+		data->in = open("./tmp_file", O_RDONLY, 0644);
 	
 	error = (
 		close(data->out) == -1
@@ -28,6 +31,7 @@ int	redirecting_child(t_data *data, char *cmd, char **envp)
 		cmd_exec(cmd, envp);
 	return (error);
 }
+//close tmp file bei here_doc
 
 int	redirecting_pipe(t_data *data, char *cmd, char **envp)
 {

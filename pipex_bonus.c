@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:26:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/05 19:49:39 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:01:57 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	first_command(t_data *data, char *first_cmd, char **envp)
 	if (data->pid == -1)
 		exec_failed("ERROR: unsuccessful fork execution");
 	if (data->pid == 0)
-		redirecting_child(data, first_cmd, envp);
+		redirecting_first_command(data, first_cmd, envp);
 	return(data->amount_cmd);
 }
 
@@ -46,7 +46,7 @@ int	pipe_commands(t_data *data, int argc, char **argv, char **envp)
 {
 	int		i;
 	
-	data->amount_cmd = argc - 4;
+	data->amount_cmd = argc - 3;
 	i = 0;
 	while (data->amount_cmd > 1)
 	{
@@ -66,32 +66,6 @@ int	pipe_commands(t_data *data, int argc, char **argv, char **envp)
 	}
 	return (i);
 }
-//!!für heredoc mussen die argv zahlen verandert werden!!!
-//im not really doing sth with wait am i ?
-
-int	handle_here_doc(t_data *data)
-{
-	char	*line;
-	int		line_length;
-
-	line_length = 1;
-	while (line_length)
-	{
-		line = get_next_line(0);
-		if (!line)
-			exec_failed("ERROR: missing here_doc input");
-		line_length = ft_strlen(line);
-		if (!ft_strncmp(line, data->LIMITER, ft_strlen(data->LIMITER)))
-			return (data->heredoc);
-		//uberpruft der jetzt auch wirklich genau nur das wort?
-		write(data->heredoc, line, line_length);
-		//muss da noch ne new line hin?
-		free(line);
-
-	}
-	return(data->heredoc);
-	//oder muss ich data zurückgeben, damit das auch alles ubernommen wird?
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -100,11 +74,15 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		exec_failed("ERROR: incorrect parameter number");
 	if (!ft_strncmp(argv[1], "here_doc", 8))
+	//hier selbes spiel er nimmt nicht nur here_doc
 	{
-		data.heredoc = open("./tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0644);
+		data.heredoc = open("./tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0777);
+		if (data.heredoc == -1)
+			exec_failed("ERROR: open tmp_file failure");
 		data.LIMITER = argv[2];
-		data.in = data.heredoc;
-		//muss ich hier eig dup verwenden?
+		handle_heredoc(&data);
+		close(data.heredoc);
+		
 	}
 	//muss ich hier noch bullshit input handlen?
 	else
@@ -117,6 +95,12 @@ int	main(int argc, char **argv, char **envp)
 		close(data.in);
 		exec_failed("ERROR: open outfile failed");
 	}
+	if ((!ft_strncmp(argv[1], "here_doc", 8)))
+		redirecting_parent(
+				&data, argv[3 + heredoc_commands(&data, argc, argv, envp)], envp);
 	redirecting_parent(
 			&data, argv[2 + pipe_commands(&data, argc, argv, envp)], envp);
 }
+
+		//handle error bei allen close ?!
+		//irgendwie ne extra function dafur ??
