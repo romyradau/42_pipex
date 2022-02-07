@@ -6,12 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 20:39:42 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/05 19:45:34 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:43:41 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
-#include <stdio.h>
+#include <pipex_bonus.h>
 
 void	exec_failed(char *s)
 {

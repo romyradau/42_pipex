@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:28:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/06 19:02:23 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:42:24 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
-# include "./libft/libft.h"
-# include "get_next_line.h"
+# include "../libft/libft.h"
+# include <get_next_line.h>
 # include <fcntl.h>
 # include <unistd.h>
-#include <stdio.h>
 
 
 # ifndef READ_END
@@ -47,7 +46,7 @@ void	child_status(void);
 void	cmd_exec(char *cmd, char **envp);
 void	free_split(char **split);
 void	exec_failed(char *s);
-int		handle_heredoc(t_data *data);
+void	handle_heredoc(t_data *data);
 int		heredoc_commands(t_data *data, int argc, char **argv, char **envp);
 int		first_command(t_data *data, char *first_cmd, char **envp);
 int		multiple_commands(t_data *data, char *cmd, char **envp);

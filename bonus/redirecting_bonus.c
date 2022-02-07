@@ -6,11 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 13:16:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/06 19:02:14 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:52:01 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include <pipex_bonus.h>
 
 int	redirecting_first_command(t_data *data, char *cmd, char **envp)
 {
@@ -31,7 +31,6 @@ int	redirecting_first_command(t_data *data, char *cmd, char **envp)
 		cmd_exec(cmd, envp);
 	return (error);
 }
-//close tmp file bei here_doc
 
 int	redirecting_pipe(t_data *data, char *cmd, char **envp)
 {
@@ -62,13 +61,13 @@ int	redirecting_parent(t_data *data, char *cmd, char **envp)
 	|| dup2(data->out, STDOUT_FILENO) == -1
 	|| close(data->out)== -1
 	);
+	pause();
 	if (error == 0)
 		cmd_exec(cmd, envp);
 	return (error);
 }
 
 /*
-pause();
 lsof -c pipex
 beim letzte mal muss die exec noch aus dem STDIN_FILENO lesen
 */

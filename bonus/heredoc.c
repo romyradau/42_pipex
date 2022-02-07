@@ -6,11 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:12:15 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/06 19:06:16 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:48:34 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include <pipex_bonus.h>
 
 int	heredoc_commands(t_data *data, int argc, char **argv, char **envp)
 {
@@ -24,7 +24,6 @@ int	heredoc_commands(t_data *data, int argc, char **argv, char **envp)
 		{
 			
 			first_command(data, argv[3], envp);
-			close(data->in);
 			data->amount_cmd--;
 		}
 		else
@@ -38,9 +37,10 @@ int	heredoc_commands(t_data *data, int argc, char **argv, char **envp)
 	return (i);
 }
 
-int	handle_heredoc(t_data *data)
+void	handle_heredoc(t_data *data)
 {
 	char	*line;
+	char	*test;
 	int		line_length;
 
 	line_length = 1;
@@ -50,16 +50,15 @@ int	handle_heredoc(t_data *data)
 		if (!line)
 			exec_failed("ERROR: missing here_doc input");
 		line_length = ft_strlen(line);
-		if (!ft_strncmp(line, data->LIMITER, ft_strlen(data->LIMITER)))
-			return (data->heredoc);
-		//uberpruft der jetzt auch wirklich genau nur das wort?
-		//nein bullshit handeln!
+		test = ft_strtrim(line, "\n");
+		if (!ft_strncmp(test, data->LIMITER, ft_strlen(data->LIMITER) + 1))
+		{
+			free(test);
+			free(line);
+			return ;
+		}
 		write(data->heredoc, line, line_length);
-		//muss da noch ne new line hin?
+		free(test);
 		free(line);
-
 	}
-	return(data->heredoc);
-	//oder muss ich data zurückgeben, damit das auch alles ubernommen wird?
-	//sollte ieg void sein
 }

@@ -6,11 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:25:35 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/04 18:28:25 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:57:45 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <pipex.h>
 
 int	redirecting_child(t_file *file, char *cmd, char **envp)
 {

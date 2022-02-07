@@ -6,11 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 20:16:54 by rschleic          #+#    #+#             */
-/*   Updated: 2021/09/14 14:45:59 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:12:57 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <get_next_line.h>
 
 size_t	my_strlen(size_t start, char *str)
 {

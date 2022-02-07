@@ -6,11 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:26:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/06 19:01:57 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:12:38 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include <pipex_bonus.h>
 
 int	first_command(t_data *data, char *first_cmd, char **envp)
 {
@@ -73,18 +73,16 @@ int	main(int argc, char **argv, char **envp)
 	
 	if (argc < 5)
 		exec_failed("ERROR: incorrect parameter number");
-	if (!ft_strncmp(argv[1], "here_doc", 8))
-	//hier selbes spiel er nimmt nicht nur here_doc
+	if (!ft_strncmp(argv[1], "here_doc\0", 9))
 	{
 		data.heredoc = open("./tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0777);
 		if (data.heredoc == -1)
 			exec_failed("ERROR: open tmp_file failure");
 		data.LIMITER = argv[2];
 		handle_heredoc(&data);
-		close(data.heredoc);
-		
+		if (close(data.heredoc) == -1)
+			exec_failed("ERROR: heredoc didn't close properly");
 	}
-	//muss ich hier noch bullshit input handlen?
 	else
 		data.in = open(argv[1], O_RDONLY);
 	if (data.in == -1)
@@ -95,12 +93,9 @@ int	main(int argc, char **argv, char **envp)
 		close(data.in);
 		exec_failed("ERROR: open outfile failed");
 	}
-	if ((!ft_strncmp(argv[1], "here_doc", 8)))
+	if ((!ft_strncmp(argv[1], "here_doc\0", 9)))
 		redirecting_parent(
 				&data, argv[3 + heredoc_commands(&data, argc, argv, envp)], envp);
 	redirecting_parent(
 			&data, argv[2 + pipe_commands(&data, argc, argv, envp)], envp);
 }
-
-		//handle error bei allen close ?!
-		//irgendwie ne extra function dafur ??

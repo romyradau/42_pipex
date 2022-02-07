@@ -6,14 +6,14 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:18:55 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/02 18:59:47 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:14:35 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 # include <fcntl.h>
 # include <unistd.h>
 
