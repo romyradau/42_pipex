@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:26:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 19:48:13 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 20:39:24 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 		exec_failed("ERROR: incorrect parameter number");
 	if (!ft_strncmp(argv[1], "here_doc\0", 9))
 	{
-		data.heredoc = open("./tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0777);
+		data.heredoc = open("./tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (data.heredoc == -1)
 			exec_failed("ERROR: open tmp_file failure");
 		data.LIMITER = argv[2];
