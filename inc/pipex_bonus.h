@@ -6,10 +6,9 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:28:00 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 16:42:24 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 18:40:53 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
@@ -18,7 +17,6 @@
 # include <get_next_line.h>
 # include <fcntl.h>
 # include <unistd.h>
-
 
 # ifndef READ_END
 #  define READ_END 0
@@ -50,7 +48,5 @@ void	handle_heredoc(t_data *data);
 int		heredoc_commands(t_data *data, int argc, char **argv, char **envp);
 int		first_command(t_data *data, char *first_cmd, char **envp);
 int		multiple_commands(t_data *data, char *cmd, char **envp);
-
-
 
 #endif

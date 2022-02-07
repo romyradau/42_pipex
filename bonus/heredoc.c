@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:12:15 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 17:48:34 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:49:10 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 int	heredoc_commands(t_data *data, int argc, char **argv, char **envp)
 {
 	int		i;
-	
+
 	data->amount_cmd = argc - 4;
 	i = 0;
 	while (data->amount_cmd > 1)
 	{
 		if (data->amount_cmd == argc - 4)
 		{
-			
 			first_command(data, argv[3], envp);
 			data->amount_cmd--;
 		}
@@ -31,7 +30,7 @@ int	heredoc_commands(t_data *data, int argc, char **argv, char **envp)
 			data->amount_cmd = multiple_commands(data, argv[3 + i], envp);
 			data->amount_cmd--;
 		}
-		child_status();
+		waitpid(data->pid, NULL, 0);
 		i++;
 	}
 	return (i);

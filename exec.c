@@ -6,11 +6,11 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 17:22:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/04 17:39:50 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:55:48 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <pipex.h>
 
 void	exec_failed(char *s)
 {
@@ -72,30 +72,3 @@ void	cmd_exec(char *cmd, char **envp)
 	free_split(cmd_args);
 	exec_failed("ERROR: no matching path found\n");
 }
-// hier nochmal verstehen, was im bonus geandert wurde
-// wie implementiere ich path not set in bonus(message)
-
-void	child_status(void)
-{
-	int		wait_status;
-	int		status_code;
-
-	wait(&wait_status);
-	if (WIFEXITED(wait_status))
-	{
-		status_code = WEXITSTATUS(wait_status);
-		if (status_code)
-			exec_failed("ERROR: cp exit unsuccessful");
-	}
-}
-
-//ich mache uberhaupt nichts mit einem möglcihen return value
-
-/*
-	return value of cp gets written to &wait_status
-	if (WIFEXITED(wait_status))
-		checks that cp exits
-	if (WEXITSTATUS(wait_status) == 0)
-		checks with what it exited
-		0 == success
-*/

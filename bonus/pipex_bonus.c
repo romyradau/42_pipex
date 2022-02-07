@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:26:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 16:12:38 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:48:13 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,35 @@ int	first_command(t_data *data, char *first_cmd, char **envp)
 	if (data->pid == -1)
 		exec_failed("ERROR: unsuccessful fork execution");
 	if (data->pid == 0)
-		redirecting_first_command(data, first_cmd, envp);
-	return(data->amount_cmd);
+		if (redirecting_first_command(data, first_cmd, envp))
+			exec_failed("ERROR: open/close failure");
+	return (data->amount_cmd);
 }
 
 int	multiple_commands(t_data *data, char *cmd, char **envp)
 {
 	data->tmp_fd = dup(data->fd[READ_END]);
-	close(data->fd[WRITE_END]);
-	close(data->fd[READ_END]);
+	if (close(data->fd[WRITE_END]))
+		exec_failed("ERROR: close failure");
+	if (close(data->fd[READ_END]))
+		exec_failed("ERROR: close failure");
 	if (pipe(data->fd) == -1)
 		exec_failed("ERROR: unsuccessful creation of pipe");
 	data->pid = fork();
 	if (data->pid == -1)
 		exec_failed("ERROR: unsuccessful fork execution");
 	if (data->pid == 0)
-		redirecting_pipe(data, cmd, envp);
-	close(data->tmp_fd);
-	return(data->amount_cmd);
+		if (redirecting_pipe(data, cmd, envp))
+			exec_failed("ERROR: open/close failure in pipe");
+	if (close(data->tmp_fd))
+		exec_failed("ERROR: close failure");
+	return (data->amount_cmd);
 }
-
-//close errors check
 
 int	pipe_commands(t_data *data, int argc, char **argv, char **envp)
 {
 	int		i;
-	
+
 	data->amount_cmd = argc - 3;
 	i = 0;
 	while (data->amount_cmd > 1)
@@ -53,7 +56,8 @@ int	pipe_commands(t_data *data, int argc, char **argv, char **envp)
 		if (data->amount_cmd == argc - 3)
 		{
 			first_command(data, argv[2], envp);
-			close(data->in);
+			if (close(data->in))
+				exec_failed("ERROR: close failure");
 			data->amount_cmd--;
 		}
 		else
@@ -61,16 +65,27 @@ int	pipe_commands(t_data *data, int argc, char **argv, char **envp)
 			data->amount_cmd = multiple_commands(data, argv[2 + i], envp);
 			data->amount_cmd--;
 		}
-		child_status();
+		waitpid(data->pid, NULL, 0);
 		i++;
 	}
 	return (i);
 }
 
+void	do_the_magic(int argc, char **argv, char **envp, t_data *data)
+{
+	if ((!ft_strncmp(argv[1], "here_doc\0", 9)))
+		if (redirecting_parent(
+				data, argv[3 + heredoc_commands(data, argc, argv, envp)], envp))
+			exec_failed("ERROR: open/close failure in parentprocess");
+	if (redirecting_parent(
+			data, argv[2 + pipe_commands(data, argc, argv, envp)], envp))
+		exec_failed("ERROR: open/close failure in parentprocess");
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	
+
 	if (argc < 5)
 		exec_failed("ERROR: incorrect parameter number");
 	if (!ft_strncmp(argv[1], "here_doc\0", 9))
@@ -93,9 +108,5 @@ int	main(int argc, char **argv, char **envp)
 		close(data.in);
 		exec_failed("ERROR: open outfile failed");
 	}
-	if ((!ft_strncmp(argv[1], "here_doc\0", 9)))
-		redirecting_parent(
-				&data, argv[3 + heredoc_commands(&data, argc, argv, envp)], envp);
-	redirecting_parent(
-			&data, argv[2 + pipe_commands(&data, argc, argv, envp)], envp);
+	do_the_magic(argc, argv, envp, &data);
 }

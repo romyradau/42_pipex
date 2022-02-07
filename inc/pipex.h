@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:18:55 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 16:14:35 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:59:54 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # ifndef WRITE_END
 #  define WRITE_END 1
 # endif
-
 typedef struct s_file{
 	int		in;
 	int		out;

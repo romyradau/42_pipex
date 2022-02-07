@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 20:39:42 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 16:43:41 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:57:02 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	cmd_exec(char *cmd, char **envp)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
-		//segfaultet das hier wenn  es kein PATH gibt im letzten envp[i]?
 	paths = NULL;
 	if (envp[i])
 		paths = ft_split(envp[i] + 6, ':');
@@ -73,27 +72,3 @@ void	cmd_exec(char *cmd, char **envp)
 	free_split(cmd_args);
 	exec_failed("ERROR: no matching path found\n");
 }
-
-void	child_status(void)
-{
-	int		wait_status;
-	int		status_code;
-
-	wait(&wait_status);
-	if (WIFEXITED(wait_status))
-	{
-		status_code = WEXITSTATUS(wait_status);
-		if (status_code)
-			exec_failed("ERROR: cp exit unsuccessful");
-	}
-}
-/*
-	return value of cp gets written to &wait_status
-	if (WIFEXITED(wait_status))
-		checks that cp exits
-	if (WEXITSTATUS(wait_status) == 0)
-		checks with what it exited
-		0 == success
-		
-	fprintf(stderr, "%s", envp[28]);
-*/
