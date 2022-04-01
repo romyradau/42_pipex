@@ -6,7 +6,7 @@
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 18:39:49 by rschleic          #+#    #+#              #
-#    Updated: 2022/02/07 18:39:49 by rschleic         ###   ########.fr        #
+#    Updated: 2022/02/08 19:38:29 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ fclean:
 	rm -fr tmp_file
 	rm -rf $(OBJ) $(OBJ_BON)
 
+	
 bonus: $(BON_NAME)
 
 $(BON_NAME): $(LIBFT) $(OBJ_BON) $(BONUS)

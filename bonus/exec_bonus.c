@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 20:39:42 by rschleic          #+#    #+#             */
-/*   Updated: 2022/02/07 19:57:02 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/03/16 13:31:00 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	find_path(char **paths, char **cmd_args, char **envp)
 	}
 	if (access(cmd_args[0], F_OK) == 0)
 		execve(cmd_args[0], cmd_args, envp);
+	//das war dafur falls Path unsetted war, der cmd aber trzd valid ist
 }
 
 void	cmd_exec(char *cmd, char **envp)
